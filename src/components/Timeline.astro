@@ -1,0 +1,79 @@
+---
+interface TimelineItem {
+  year: string;
+  title: string;
+  company: string;
+  description: string;
+}
+
+const experiences: TimelineItem[] = [
+  {
+    year: '2024',
+    title: 'Software Engineer',
+    company: 'Hero Plus Group',
+    description: 'Building payment infrastructure across Southeast Asia. Full-stack development with Ruby on Rails, React, and AWS.',
+  },
+  {
+    year: '2023',
+    title: 'Research Assistant',
+    company: 'The University of Hong Kong',
+    description: 'Pioneered AR stroke rehabilitation games using Computer Vision. Real-time object recognition and motion analysis.',
+  },
+  {
+    year: '2023',
+    title: 'Co-Founder',
+    company: 'Solvfit',
+    description: 'Skill-based talent acquisition platform. Built with React, TypeScript, and AWS infrastructure.',
+  },
+  {
+    year: '2022',
+    title: 'Frontend Developer',
+    company: 'Kin Technology',
+    description: 'Health Tech startup. Built frontend interfaces with React and Next.js with server-side rendering.',
+  },
+];
+---
+
+<section id="experience" class="py-16 sm:py-24">
+  <div class="container-wide">
+    <h2 class="text-sm font-medium uppercase tracking-wider text-foreground-tertiary dark:text-foreground-dark-tertiary mb-12">
+      Experience
+    </h2>
+
+    <div class="relative">
+      <!-- Timeline line -->
+      <div class="absolute left-0 top-0 bottom-0 w-px bg-border dark:bg-border-dark ml-[3.5rem] sm:ml-[4.5rem]"></div>
+
+      <div class="space-y-12">
+        {experiences.map((item, index) => (
+          <div class="relative flex gap-6 sm:gap-8">
+            <!-- Year -->
+            <div class="w-12 sm:w-16 flex-shrink-0 text-right">
+              <span class="text-sm font-mono text-foreground-tertiary dark:text-foreground-dark-tertiary">
+                {item.year}
+              </span>
+            </div>
+
+            <!-- Dot -->
+            <div class="relative flex-shrink-0">
+              <div class="w-2 h-2 rounded-full bg-foreground dark:bg-foreground-dark mt-2"></div>
+            </div>
+
+            <!-- Content -->
+            <div class="flex-1 pb-2">
+              <h3 class="text-lg font-medium text-foreground dark:text-foreground-dark">
+                {item.title}
+              </h3>
+              <p class="text-sm text-foreground-secondary dark:text-foreground-dark-secondary mt-0.5">
+                {item.company}
+              </p>
+              <p class="text-sm text-foreground-tertiary dark:text-foreground-dark-tertiary mt-3 max-w-xl">
+                {item.description}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

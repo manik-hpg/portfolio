@@ -1,0 +1,62 @@
+---
+import ProjectCard from './ProjectCard.astro';
+import { ArrowRight } from 'lucide-astro';
+
+const featuredProjects = [
+  {
+    title: 'Hero Plus Payment Platform',
+    description: 'Multi-gateway payment platform processing transactions across Thailand, Hong Kong, Malaysia, and Singapore. Integrated Nomupay, Stripe, 2c2p, and Fiuu with PCI DSS compliance, recurring payments, and automated payout systems.',
+    tags: ['Ruby on Rails', 'React', 'PostgreSQL', 'AWS'],
+    href: '/projects#hero-plus',
+  },
+  {
+    title: 'Stroke Rehabilitation AR',
+    description: 'AR therapeutic games for stroke rehabilitation developed at HKU. Used computer vision for real-time motion tracking and exercise analysis, increasing therapy adherence by 40%.',
+    tags: ['Unity', 'C#', 'Computer Vision', 'AR'],
+    href: '/projects#stroke-rehab',
+  },
+  {
+    title: 'Solvfit',
+    description: 'Skill-based talent matching platform with explainable scoring algorithms. Built as co-founder, reducing hiring biases and improving placement precision by 40%.',
+    tags: ['React', 'TypeScript', 'Tailwind', 'AWS'],
+    href: '/projects#solvfit',
+  },
+];
+---
+
+<section id="projects" class="py-16 sm:py-24 border-t border-gray-100 dark:border-neutral-900">
+  <div class="container-wide">
+    <div class="flex items-center justify-between mb-8">
+      <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-neutral-50">
+        Featured Projects
+      </h2>
+
+      <a
+        href="/projects"
+        class="hidden sm:inline-flex items-center gap-1 text-sm font-medium text-gray-500 dark:text-neutral-400 hover:text-gray-900 dark:hover:text-neutral-50 transition-colors"
+      >
+        View all
+        <ArrowRight class="w-4 h-4" />
+      </a>
+    </div>
+
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {featuredProjects.map((project, index) => (
+        <div style={`animation-delay: ${index * 75}ms`} class="animate-fade-in">
+          <ProjectCard {...project} />
+        </div>
+      ))}
+    </div>
+
+    <!-- Mobile view all link -->
+    <div class="mt-8 sm:hidden">
+      <a
+        href="/projects"
+        class="inline-flex items-center gap-1 text-sm font-medium text-gray-500 dark:text-neutral-400 hover:text-gray-900 dark:hover:text-neutral-50 transition-colors"
+      >
+        View all projects
+        <ArrowRight class="w-4 h-4" />
+      </a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogCard from '../../components/BlogCard.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog', ({ data }) => !data.draft);
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Simple reading time calculation
+function getReadingTime(content: string): number {
+  const wordsPerMinute = 200;
+  const words = content.split(/\s+/).length;
+  return Math.ceil(words / wordsPerMinute);
+}
+---
+
+<BaseLayout title="Blog - Manik Soin" description="Thoughts on software engineering, payments, and building products.">
+  <section class="py-16 sm:py-24">
+    <div class="container-wide">
+      <div class="max-w-2xl">
+        <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 dark:text-neutral-50">
+          Blog
+        </h1>
+        <p class="mt-4 text-lg text-gray-600 dark:text-neutral-400">
+          Thoughts on software engineering, payments, and building products.
+        </p>
+      </div>
+
+      <div class="mt-12 max-w-2xl">
+        {sortedPosts.length === 0 ? (
+          <p class="text-gray-500 dark:text-neutral-500">
+            No posts yet. Check back soon.
+          </p>
+        ) : (
+          <div class="divide-y divide-gray-100 dark:divide-neutral-800">
+            {sortedPosts.map((post) => (
+              <BlogCard
+                title={post.data.title}
+                description={post.data.description}
+                pubDate={post.data.pubDate}
+                href={`/blog/${post.slug}`}
+                readingTime={getReadingTime(post.body)}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

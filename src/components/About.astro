@@ -1,0 +1,47 @@
+---
+---
+
+<section id="about" class="py-16 sm:py-24 border-t border-gray-100 dark:border-neutral-900">
+  <div class="container-wide">
+    <div class="max-w-2xl">
+      <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-neutral-50">
+        About
+      </h2>
+
+      <div class="mt-6 space-y-4 text-base sm:text-lg text-gray-600 dark:text-neutral-400 leading-relaxed">
+        <p>
+          I'm a software engineer based in Hong Kong, currently working as a <strong class="text-gray-900 dark:text-neutral-50 font-medium">Founding Engineer at Hero Plus Group</strong>, where I architect and build payment infrastructure serving merchants across Southeast Asia.
+        </p>
+
+        <p>
+          My work spans the full stack &mdash; from designing PCI-compliant multi-gateway payment systems handling transactions across Thailand, Hong Kong, Malaysia, and Singapore, to building React frontends and managing AWS infrastructure.
+        </p>
+
+        <p>
+          Before Hero Plus, I worked as a Research Assistant at the University of Hong Kong, developing AR therapeutic games for stroke rehabilitation using computer vision and Unity. I also co-founded Solvfit, a skill-based talent matching platform.
+        </p>
+
+        <p>
+          I studied Computer Science at HKU, where I built a foundation in distributed systems, machine learning, and software architecture. Outside of work, I'm interested in fintech, developer tools, and building products that solve real problems.
+        </p>
+      </div>
+
+      <!-- Skills -->
+      <div class="mt-10">
+        <h3 class="text-sm font-medium text-gray-500 dark:text-neutral-500 uppercase tracking-wide">
+          Technologies
+        </h3>
+        <div class="mt-4 flex flex-wrap gap-2">
+          {[
+            'TypeScript', 'React', 'Ruby on Rails', 'Python',
+            'PostgreSQL', 'Redis', 'AWS', 'Docker'
+          ].map(skill => (
+            <span class="px-3 py-1 text-sm text-gray-600 dark:text-neutral-400 bg-gray-100 dark:bg-neutral-800 rounded-md">
+              {skill}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

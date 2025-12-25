@@ -1,0 +1,131 @@
+---
+import { BookOpen, Headphones, ExternalLink } from 'lucide-astro';
+
+const goodreadsUrl = 'https://www.goodreads.com/user/show/149722932-manik-soin';
+
+// Featured books - update manually
+const featuredBooks = [
+  {
+    title: 'Designing Data-Intensive Applications',
+    author: 'Martin Kleppmann',
+    status: 'reading',
+  },
+  {
+    title: 'The Pragmatic Programmer',
+    author: 'David Thomas & Andrew Hunt',
+    status: 'completed',
+  },
+  {
+    title: 'Clean Code',
+    author: 'Robert C. Martin',
+    status: 'completed',
+  },
+];
+
+// YouTube podcasts
+const favoritePodcasts = [
+  {
+    title: 'Huberman Lab',
+    host: 'Andrew Huberman',
+    url: 'https://www.youtube.com/@hubermanlab',
+  },
+  {
+    title: 'All-In Podcast',
+    host: 'Chamath, Jason, Sacks & Friedberg',
+    url: 'https://www.youtube.com/@allin',
+  },
+  {
+    title: 'Lex Fridman Podcast',
+    host: 'Lex Fridman',
+    url: 'https://www.youtube.com/@lexfridman',
+  },
+  {
+    title: 'Dwarkesh Podcast',
+    host: 'Dwarkesh Patel',
+    url: 'https://www.youtube.com/@DwarkeshPatel',
+  },
+];
+---
+
+<section id="reading" class="py-16 sm:py-24 border-t border-border dark:border-border-dark">
+  <div class="container-wide">
+    <!-- Books -->
+    <div class="mb-16">
+      <div class="flex items-center justify-between mb-8">
+        <h2 class="text-sm font-medium uppercase tracking-wider text-foreground-tertiary dark:text-foreground-dark-tertiary">
+          Reading
+        </h2>
+        <a
+          href={goodreadsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-1.5 text-sm text-foreground-secondary dark:text-foreground-dark-secondary hover:text-foreground dark:hover:text-foreground-dark transition-colors"
+        >
+          <span>Goodreads</span>
+          <ExternalLink class="w-3.5 h-3.5" />
+        </a>
+      </div>
+
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {featuredBooks.map((book) => (
+          <div class="p-4 rounded-lg border border-border dark:border-border-dark bg-background-secondary dark:bg-background-dark-secondary">
+            <div class="flex items-start gap-3">
+              <div class="flex-shrink-0 w-8 h-8 rounded bg-background-tertiary dark:bg-background-dark-tertiary flex items-center justify-center">
+                <BookOpen class="w-4 h-4 text-foreground-tertiary dark:text-foreground-dark-tertiary" />
+              </div>
+              <div class="flex-1 min-w-0">
+                <h3 class="text-sm font-medium text-foreground dark:text-foreground-dark truncate">
+                  {book.title}
+                </h3>
+                <p class="text-xs text-foreground-tertiary dark:text-foreground-dark-tertiary mt-0.5">
+                  {book.author}
+                </p>
+                <span class={`inline-block mt-2 text-xs px-2 py-0.5 rounded-full ${
+                  book.status === 'reading'
+                    ? 'bg-foreground/10 dark:bg-foreground-dark/10 text-foreground dark:text-foreground-dark'
+                    : 'bg-background-tertiary dark:bg-background-dark-tertiary text-foreground-tertiary dark:text-foreground-dark-tertiary'
+                }`}>
+                  {book.status === 'reading' ? 'Currently reading' : 'Completed'}
+                </span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Podcasts -->
+    <div>
+      <div class="flex items-center justify-between mb-8">
+        <h2 class="text-sm font-medium uppercase tracking-wider text-foreground-tertiary dark:text-foreground-dark-tertiary">
+          Listening
+        </h2>
+      </div>
+
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {favoritePodcasts.map((podcast) => (
+          <a
+            href={podcast.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group p-4 rounded-lg border border-border dark:border-border-dark bg-background-secondary dark:bg-background-dark-secondary hover:border-foreground-tertiary dark:hover:border-foreground-dark-tertiary transition-colors"
+          >
+            <div class="flex items-start gap-3">
+              <div class="flex-shrink-0 w-8 h-8 rounded bg-background-tertiary dark:bg-background-dark-tertiary flex items-center justify-center">
+                <Headphones class="w-4 h-4 text-foreground-tertiary dark:text-foreground-dark-tertiary" />
+              </div>
+              <div class="flex-1 min-w-0">
+                <h3 class="text-sm font-medium text-foreground dark:text-foreground-dark truncate group-hover:underline underline-offset-2">
+                  {podcast.title}
+                </h3>
+                <p class="text-xs text-foreground-tertiary dark:text-foreground-dark-tertiary mt-0.5">
+                  {podcast.host}
+                </p>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

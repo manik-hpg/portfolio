@@ -1,0 +1,145 @@
+---
+const githubUsername = 'manik-hpg';
+const weeks = 52;
+const daysPerWeek = 7;
+---
+
+<section id="activity" class="py-16 sm:py-24">
+  <div class="container-wide">
+    <div class="flex items-center justify-between mb-8">
+      <h2 class="text-sm font-medium uppercase tracking-wider text-foreground-tertiary dark:text-foreground-dark-tertiary">
+        Activity
+      </h2>
+      <a
+        href={`https://github.com/${githubUsername}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-sm text-foreground-secondary dark:text-foreground-dark-secondary hover:text-foreground dark:hover:text-foreground-dark transition-colors"
+      >
+        @{githubUsername}
+      </a>
+    </div>
+
+    <!-- Contribution Grid -->
+    <div class="overflow-x-auto pb-2">
+      <div
+        id="contribution-grid"
+        class="inline-grid gap-[3px]"
+        style={`grid-template-columns: repeat(${weeks}, 1fr); grid-template-rows: repeat(${daysPerWeek}, 1fr);`}
+      >
+        {Array.from({ length: weeks * daysPerWeek }).map((_, i) => (
+          <div
+            class="w-[10px] h-[10px] sm:w-[11px] sm:h-[11px] rounded-sm bg-background-tertiary dark:bg-background-dark-tertiary contribution-cell"
+            data-index={i}
+          ></div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="flex items-center justify-end gap-2 mt-4 text-xs text-foreground-tertiary dark:text-foreground-dark-tertiary">
+      <span>Less</span>
+      <div class="flex gap-[3px]">
+        <div class="w-[10px] h-[10px] rounded-sm bg-background-tertiary dark:bg-background-dark-tertiary"></div>
+        <div class="w-[10px] h-[10px] rounded-sm bg-foreground-tertiary/30 dark:bg-foreground-dark-tertiary/30"></div>
+        <div class="w-[10px] h-[10px] rounded-sm bg-foreground-tertiary/50 dark:bg-foreground-dark-tertiary/50"></div>
+        <div class="w-[10px] h-[10px] rounded-sm bg-foreground-tertiary/70 dark:bg-foreground-dark-tertiary/70"></div>
+        <div class="w-[10px] h-[10px] rounded-sm bg-foreground dark:bg-foreground-dark"></div>
+      </div>
+      <span>More</span>
+    </div>
+
+    <p id="contribution-count" class="mt-4 text-sm text-foreground-secondary dark:text-foreground-dark-secondary">
+      Loading contributions...
+    </p>
+  </div>
+</section>
+
+<script>
+  const GITHUB_USERNAME = 'manik-hpg';
+
+  async function fetchContributions() {
+    const grid = document.getElementById('contribution-grid');
+    const countEl = document.getElementById('contribution-count');
+    const cells = grid?.querySelectorAll('.contribution-cell');
+
+    if (!cells) return;
+
+    try {
+      const response = await fetch(
+        `https://github-contributions-api.jogruber.de/v4/${GITHUB_USERNAME}?y=last`
+      );
+      if (!response.ok) throw new Error('Failed');
+      const data = await response.json();
+      const contributions = data.contributions || [];
+
+      // Get last 364 days
+      const flatContributions = contributions.slice(-364).map((day: { count: number }) => day.count);
+
+      // Get max for normalization
+      const maxCount = Math.max(...flatContributions, 1);
+
+      // Apply contribution levels to cells
+      cells.forEach((cell, i) => {
+        const count = flatContributions[i] || 0;
+        const level = getLevel(count, maxCount);
+        applyLevel(cell as HTMLElement, level, count);
+      });
+
+      // Update count
+      const total = flatContributions.reduce((a: number, b: number) => a + b, 0);
+      if (countEl) {
+        countEl.textContent = `${total.toLocaleString()} contributions in the last year`;
+      }
+    } catch (e) {
+      // Fallback: show placeholder pattern
+      cells.forEach((cell, i) => {
+        const random = Math.random();
+        let level = 0;
+        if (random > 0.7) level = 1;
+        if (random > 0.85) level = 2;
+        if (random > 0.93) level = 3;
+        if (random > 0.97) level = 4;
+
+        applyLevel(cell as HTMLElement, level, 0);
+      });
+
+      if (countEl) {
+        countEl.innerHTML = `<a href="https://github.com/${GITHUB_USERNAME}" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2">View on GitHub</a>`;
+      }
+    }
+  }
+
+  function getLevel(count: number, max: number): number {
+    if (count === 0) return 0;
+    const ratio = count / max;
+    if (ratio < 0.25) return 1;
+    if (ratio < 0.5) return 2;
+    if (ratio < 0.75) return 3;
+    return 4;
+  }
+
+  function applyLevel(cell: HTMLElement, level: number, count: number) {
+    // Remove existing bg classes
+    cell.className = cell.className
+      .split(' ')
+      .filter((c) => !c.includes('bg-'))
+      .join(' ');
+
+    const levelClasses: Record<number, string[]> = {
+      0: ['bg-background-tertiary', 'dark:bg-background-dark-tertiary'],
+      1: ['bg-foreground-tertiary/30', 'dark:bg-foreground-dark-tertiary/30'],
+      2: ['bg-foreground-tertiary/50', 'dark:bg-foreground-dark-tertiary/50'],
+      3: ['bg-foreground-tertiary/70', 'dark:bg-foreground-dark-tertiary/70'],
+      4: ['bg-foreground', 'dark:bg-foreground-dark'],
+    };
+
+    cell.classList.add(...(levelClasses[level] || levelClasses[0]));
+    if (count > 0) {
+      cell.title = `${count} contribution${count !== 1 ? 's' : ''}`;
+    }
+  }
+
+  // Fetch on load
+  fetchContributions();
+</script>
